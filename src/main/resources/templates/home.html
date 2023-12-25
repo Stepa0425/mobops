@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-some-sha512-hash" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"
+          integrity="sha512-0wnxKb0Y+2/5XK87EhV7VzGkX8B8q9ZTlz0jHk9q3Y4ajI+5Dv3mtRqfOnPnSdEJv6sK6S9jX9bcQ3b5Fy9eKQ=="
+          crossorigin="anonymous"></script>
+  <title>BlackLink
+  </title>
+</head>
+
+
+<body class="d-flex align-items-center py-4 bg-body-tertiary">
+<div class="container py-10">
+<header th:insert="~{blocks/headers :: header1}"></header>
+<main role="main">
+
+  <section class="jumbotron text-center">
+    <div class="container">
+      <h1 class="display-4">Надежный и быстрый мобильный оператор</h1>
+      <p class="lead">Наша компания BlackLink предлагает надежные и быстрые мобильные услуги, а также широкий выбор тарифных планов, подходящих для любых потребностей.</p>
+      <p>
+        <a href="/tariffs" class="btn btn-dark btn-lg">Узнать больше</a>
+      </p>
+    </div>
+  </section>
+
+  <div class="container marketing">
+
+    <div class="row">
+      <div class="col-lg-4">
+        <i class="fas fa-signal fa-5x"></i>
+        <h2 class="fw-normal">Преимущество 1</h2>
+        <p>Наша компания BlackLink предлагает надежные и быстрые мобильные услуги, а также широкий выбор тарифных планов, подходящих для любых потребностей.</p>
+      </div>
+
+      <div class="col-lg-4">
+        <i class="fas fa-signal fa-5x"></i>
+        <h2 class="fw-normal">Преимущество 2</h2>
+        <p>Мы гарантируем высокое качество связи и широкий охват сигнала, чтобы вы могли оставаться на связи в любом месте и в любое время.</p>
+      </div>
+
+      <div class="col-lg-4">
+        <i class="fas fa-dollar-sign fa-5x"></i>
+        <h2 class="fw-normal">Преимущество 3</h2>
+        <p>Мы предлагаем конкурентные цены и гибкие условия для наших клиентов. Вы получите отличное соотношение цены и качества.</</p>
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-7">
+        <h2 class="featurette-heading fw-normal lh-1">Надежность и качество. <span class="text-body-secondary">Мы заботимся о вашей связи.</span></h2>
+        <p class="lead">Мы стремимся предоставить нашим клиентам надежные и качественные услуги связи. Наша сеть обеспечивает стабильное соединение и высокую скорость передачи данных.</p>
+      </div>
+      <div class="col-md-5">
+        <img src="/bib1" height="400" width="300" alt="Надежность и качество" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid ms-5 mx-auto">
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-7 order-md-2">
+        <h2 class="featurette-heading fw-normal lh-1">Простота и удобство. Мы делаем все возможное, чтобы сделать использование наших услуг максимально простым и удобным.</h2>
+        <p class="lead">Мы разработали интуитивно понятный интерфейс и предлагаем удобные способы оплаты и управления вашими услугами.</p>
+      </div>
+      <div class="col-md-5 order-md-1">
+        <img src="/bib2" height="400" width="300" alt="Простота и удобство" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto ms-5">
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-7">
+        <h2 class="featurette-heading fw-normal lh-1">Клиентоориентированный подход. <span class="text-body-secondary">Мы всегда готовы помочь.</span></h2>
+        <p class="lead">Мы ценим наших клиентов и предлагаем высококлассное обслуживание. Наша команда поддержки всегда готова ответить на ваши вопросы и решить любые проблемы, с которыми вы можете столкнуться.</p>
+      </div>
+      <div class="col-md-5">
+        <img src="/bib3" alt="Клиентоориентированный подход" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto">
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+  </div><!-- /.container -->
+
+</main>
+
+<footer class="bg-dark text-white text-center py-3">
+  <p>Все права защищены &copy; 2023 BlackLink</p>
+</footer>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+<div th:insert="~{blocks/headers :: modalLoginSystem}"></div>
+
+</div>
+</body>
+</html>

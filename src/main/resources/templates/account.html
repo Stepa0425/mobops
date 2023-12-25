@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <script src="/docs/5.3/assets/js/color-modes.js"></script>
+    <meta charset="utf-8">
+    <title>Мой профиль</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+          integrity="sha512-some-sha512-hash" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"
+            integrity="sha512-0wnxKb0Y+2/5XK87EhV7VzGkX8B8q9ZTlz0jHk9q3Y4ajI+5Dv3mtRqfOnPnSdEJv6sK6S9jX9bcQ3b5Fy9eKQ=="
+            crossorigin="anonymous"></script>
+    <style>
+    <style>
+    .btn-black {
+        background-color: black;
+        border-color: black;
+        color: black;
+      }
+
+    .info-box {
+        /* Ваши стили для нового класса здесь */
+        background-color: #ccc;
+        padding: 10px;
+        border: 1px solid #000;
+    }
+
+.service-container {
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.service-container h6,
+.service-container p {
+    margin: 0;
+}
+
+.button-container {
+background-color: #f2f2f2;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    gap: 10px;
+}
+
+.black-button {
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+    .modal-header-sm {
+        padding: 0.5rem 1rem;
+        border-bottom: none; /* Удалить нижнюю границу шапки */
+    }
+
+    .modal-footer-sm {
+        padding: 0.5rem 1rem;
+        border-top: none; /* Удалить верхнюю границу футера */
+    }
+
+    .modal-header-sm .modal-title {
+        margin-bottom: 0;
+    }
+
+    .modal-footer-sm button {
+        margin-top: 0;
+    }
+
+    .modal-content {
+        border: none; /* Удалить границу модального окна */
+    }
+.balance {
+            font-size: 24px;
+            font-weight: bold;
+            color: green;
+        }
+        .negative-balance {
+            color: red;
+        }
+
+
+
+
+
+
+
+
+    </style>
+</head>
+<body class="d-flex align-items-center py-4 bg-body-tertiary">
+
+<div class="container py-10">
+    <header th:insert="~{blocks/headers :: header1}"></header>
+    <h1 class="mb-3 text-center">Мой профиль</h1>
+    <div th:each="el : ${user}" class="container py-20">
+        <div class="col md-7">
+            <h3>Ваши данные</h3>
+            <form action="/account" method="post">
+                <div class="row g-3 mb-2">
+                    <div class="col-md-6">
+                        <label for="firstName" class="form-label">Имя</label>
+                        <input type="text" name="name" class="form-control" id="firstName" placeholder=""
+                               th:value="${el.name}" required="" pattern="^[a-zA-Zа-яА-Я]{1,30}$" maxlength="30">
+                        <div class="invalid-feedback">
+                            Требуется действительное имя
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="Surname" class="form-label">Фамилия</label>
+                        <input type="text" name="surname" class="form-control" id="Surname" placeholder=""
+                               th:value="${el.surname}" pattern="^[a-zA-Zа-яА-Я]{1,30}$" maxlength="30" required="">
+                        <div class="invalid-feedback">
+                            Требуется действительная фамилия.
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="Phone" class="form-label">Номер телефона</label>
+                        <input type="text" name="phone" class="form-control" id="Phone"
+                               placeholder="29ХХХХХХХ, 44ХХХХХХХ, 25ХХХХХХХ, 33ХХХХХХХ"
+                               title="Введите номер в формате 29ХХХХХХХ, 44ХХХХХХХ, 25ХХХХХХХ, 33XXXXXXX"
+                               th:value="${el.phone}" required=""
+                               pattern="^[0-9]{1,9}$" maxlength="9">
+                        <div class="invalid-feedback">
+                            Введите для успешного сохранения
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">E-mail</label>
+                        <input type="email" name="email" class="form-control" id="email" placeholder="you@example.com"
+                               th:value="${el.email}" maxlength="100">
+                        <div class="invalid-feedback">
+                            Введите почту для успешного сохранения
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="address" class="form-label">Адрес</label>
+                        <input type="text" name="address" class="form-control" id="address" placeholder=""
+                               th:value="${el.address}" maxlength="100" required>
+                    </div>
+                    <div class="invalid-feedback">
+                        Введите адрес для успешного сохранения
+                    </div>
+                    <div class="col-md-6">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="balance" th:classappend="${el.balance &lt;= 0} ? 'negative-balance'">
+                                        Ваш текущий баланс: <span th:text="${#numbers.formatDecimal(el.balance, 1, 2, 'POINT')}" /> руб
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-end">
+                                <div class="col-auto">
+                                    <a class="btn btn-dark" type="button" data-toggle="modal"
+                                       data-target="#balanceModal">Пополнить</a>
+                                    <a class="btn btn-dark" type="button" href="/orderdetailization">Заказать детализацию платежей</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="${message}" class="alert alert-dark" role="alert">
+                        <span th:text="${message}"></span>
+                        <a th:unless="${isAdmin}" class="btn btn-dark" type="button" href="/tariffs">Подключить
+                            тариф</a>
+                    </div>
+                    <div th:if="${error_message}" class="alert alert-danger" role="alert">
+                        <span th:text="${error_message}"></span>
+                    </div>
+                    <div th:if="${error}" class="alert alert-danger" role="alert">
+                        <span th:text="${error}"></span>
+                    </div>
+                    <div class="row mt-3 justify-content-center align-items-end">
+                        <div class="col-md-4 text-center">
+                            <button class="btn btn-dark w-100 py-2" type="submit">Изменить данные</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <style>
+        .containerK {
+        width: 400px;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #000000;
+        border-radius: 5px;
+        }
+
+        h1 {
+        text-align: center;
+        }
+
+        .field {
+        margin-bottom: 10px;
+        }
+
+        .field label {
+        font-weight: bold;
+        }
+
+
+        </style>
+        <div>
+            <div th:each="el : ${tariffConnect}" class="containerK">
+                <h3 th:text="${el.Tariff.title}"></h3>
+
+                <div class="field">
+                    <label>Количество бесплатных минут:</label>
+                    <span th:text="${el.Tariff.minutes} + ' в месяц'"></span>
+                </div>
+
+                <div class="field">
+                    <label>Количество бесплатных ГБ:</label>
+                    <span th:text="${el.Tariff.internet} + ' в месяц'"></span>
+                </div>
+
+                <div class="field">
+                    <label>Количество бесплатных SMS:</label>
+                    <span th:text="${el.Tariff.sms} + ' в месяц'"></span>
+                </div>
+                <div class="field">
+                    <label>Стоимость:</label>
+                    <span th:text="${el.Tariff.price} + ' руб.'"></span>
+                </div>
+
+                <div class="field">
+                    <label>Подключенные услуги:</label>
+                    <div th:if="${serviceConnect.isEmpty()}" class="alert alert-dark text-center mt-1" role="alert">
+                        <span>У вас пока нет подключенных услуг</span>
+                    </div>
+                    <ul>
+
+                        <li th:unless="${messageService}" th:each="el : ${serviceConnect}">
+                            <span th:text="${el.Service.title + ' - ' + el.Service.price + ' рублей'}"></span>
+                            <div>
+                                <form th:action="@{/disconnect/{id}/delete(id=${el.Service.id})}" method="post">
+                                    <button type="submit" class="btn btn-dark btn-sm mt-1">Отключить услугу</button>
+                                </form>
+                            </div>
+
+                        </li>
+                    </ul>
+                </div>
+                <a class="btn btn-dark btn-sm mb-2" type="button" href="/tariffs">Переподключить тариф</a>
+                <a class="btn btn-dark btn-sm mb-2" type="button" href="/services">Подключить услуги</a>
+
+            </div>
+        </div>
+
+        <div class="modal fade" id="balanceModal" tabindex="-1" role="dialog" aria-labelledby="balanceModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form action="/balance/top-up" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="balanceModalLabel">Пополнение баланса</h5>
+                            <a class="icon-button" data-dismiss="modal" aria-label="Close">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="black"
+                                     class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="amount">Сумма пополнения</label>
+                                <div class="input-group">
+                                    <input type="number" step="0.01" class="form-control" name="amount" min="0" id="amount"
+                                           placeholder="Введите сумму" max="100000">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-dark">Пополнить</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</div>
+</body>
+</html>

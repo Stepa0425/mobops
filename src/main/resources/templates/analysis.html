@@ -1,0 +1,293 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Анализ данных</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+          integrity="sha512-some-sha512-hash" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+<style>
+
+  .form-control:hover {
+            outline-color: black;
+        }
+        .message {
+            color: green;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+
+        .form-container {
+            position: relative;
+        }
+
+        .form-container::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    .table th,
+    .table td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ccc;
+    }
+    .button {
+        background-color: black;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .table th {
+        text-align: center;
+    }
+
+    .table td.info {
+        width: 2 times;
+        text-align: center;
+    }
+
+    .price-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    .price {
+        text-align: center;
+    }
+
+    .custom-button {
+        background-color: black;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+.dropdown-toggle {
+    display: none;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+    background-color: white; /* Фоновый цвет выпадающего меню */
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+td {
+    vertical-align: middle;
+}
+
+
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="d-flex align-items-center py-4 bg-body-tertiary">
+<div class="container py-10">
+    <header th:insert="~{blocks/headers :: header1}"></header>
+    <div class="mt-5">
+        <h2 style="text-align: center; margin-top: 1em; margin-bottom: 1em;">Аналитика данных по подключенным
+            тарифам</h2>
+        <div>
+            <canvas id="chartT"></canvas>
+        </div>
+    </div>
+    <div class="mt-5">
+        <h2 style="text-align: center; margin-top: 1em; margin-bottom: 1em;">Аналитика данных по подключенным
+            услугам</h2>
+        <div>
+            <canvas id="chartS"></canvas>
+        </div>
+    </div>
+    <div class="mt-5">
+        <h2 class="mb-4">Добавление новых тарифов</h2>
+        <form action="/import" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" multiple>
+            <br>
+            <input type="submit" class="btn btn-dark mt-3" value="Загрузить JSON файл">
+        </form>
+        <form action="/export" method="get">
+            <button type="submit" class="btn btn-dark mt-3">Скачать тарифы в JSON</button>
+        </form>
+        <form action="/exportinexcel" method="get">
+            <button type="submit" class="btn btn-dark mt-3">Выгрузить подключенные тарифы в Excel</button>
+        </form>
+    </div>
+    <div th:if="${errorMessage}" class="form-container">
+        <div class="error-message">
+            <p th:text="${errorMessage}"></p>
+        </div>
+    </div>
+    <div th:if="${success}" class="form-container">
+        <div class="message">
+            <p th:text="${success}"></p>
+        </div>
+    </div>
+
+</div>
+
+<script th:inline="javascript">
+        var tariffs = /*[[${tariffs}]]*/ [];
+        var ordersT = /*[[${ordersT}]]*/ [];
+
+        // Создание объекта для хранения статистики
+        var statsT = {};
+
+        // Подсчет статистики
+        ordersT.forEach(function (order) {
+            var tariffId = order.tariff.id;
+            if (!statsT[tariffId]) {
+                statsT[tariffId] = 0;
+            }
+            statsT[tariffId] += 1;
+        });
+
+        // Получение данных для диаграммы
+        var labelsT = Object.keys(statsT);
+        var dataT = Object.values(statsT);
+
+        // Получение имен подкатегорий
+        var tariffNames = labelsT.map(function (tariffId) {
+            var tariff = tariffs.find(function (tariff) {
+                return tariff.id === parseInt(tariffId);
+            });
+            return tariff ? tariff.title : 'Неизвестный тариф';
+        });
+
+        // Создание диаграммы для тарифов
+        var ctxT = document.getElementById('chartT').getContext('2d');
+        new Chart(ctxT, {
+            type: 'bar',
+            data: {
+                labels: tariffNames,
+                datasets: [{
+                    label: 'Количество подключенных заявок',
+                    data: dataT,
+                    backgroundColor: getRandomColorArray(labelsT.length)
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Статистика заявок по тарифам'
+                }
+            }
+        });
+
+        var services = /*[[${services}]]*/ [];
+        var ordersS = /*[[${ordersS}]]*/ [];
+
+        // Создание объекта для хранения статистики
+        var statsS = {};
+
+        // Подсчет статистики
+        ordersS.forEach(function (order) {
+            var serviceId = order.service.id;
+            if (!statsS[serviceId]) {
+                statsS[serviceId] = 0;
+            }
+            statsS[serviceId] += 1;
+        });
+
+        // Получение данных для диаграммы
+        var labelsS = Object.keys(statsS);
+        var dataS = Object.values(statsS);
+
+        // Получение имен подкатегорий
+        var serviceNames = labelsS.map(function (serviceId) {
+            var service = services.find(function (service) {
+                return service.id === parseInt(serviceId);
+            });
+            return service ? service.title : 'Неизвестная услуга';
+        });
+
+        // Создание диаграммы для услуг
+        var ctxS = document.getElementById('chartS').getContext('2d');
+        new Chart(ctxS, {
+            type: 'bar',
+            data: {
+                labels: serviceNames,
+                datasets: [{
+                    label: 'Количество подключенных услуг',
+                    data: dataS,
+                    backgroundColor: getRandomColorArray(labelsS.length)
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Статистика заявок по услугам'
+                }
+            }
+        });
+
+        // Генерация случайного массива цветов
+        function getRandomColorArray(length) {
+            var colors = [];
+            for (var i = 0; i < length; i++) {
+                var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+                colors.push(color);
+            }
+            return colors;
+        }
+
+</script>
+</body>
+</html>

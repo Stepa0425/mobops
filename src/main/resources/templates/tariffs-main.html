@@ -1,0 +1,352 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Тарифы</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+          integrity="sha512-some-sha512-hash" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"
+            integrity="sha512-0wnxKb0Y+2/5XK87EhV7VzGkX8B8q9ZTlz0jHk9q3Y4ajI+5Dv3mtRqfOnPnSdEJv6sK6S9jX9bcQ3b5Fy9eKQ=="
+            crossorigin="anonymous"></script>
+    <style>
+  .message-container {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .message {
+    color: #333;
+    font-weight: bold;
+  }
+
+  .btn-outline-primary {
+    color: black;
+    border-color: black;
+  }
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+    background-color: black;
+    color: white;
+    border-color: black;
+    outline-color: black;
+}
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 100px; /* Уменьшаем ширину на 20% */
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 4px;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 8px 16px;
+  text-decoration: none;
+  display: block;
+  border-radius: 4px;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropbtn {
+  background-color: transparent; /* Изменяем цвет фона кнопки на #00000008 */
+  color: gray;
+  padding: 6px 12px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  width: 24px; /* Устанавливаем фиксированную ширину кнопки */
+  height: 24px; /* Устанавливаем фиксированную высоту кнопки */
+  display: flex; /* Добавляем flex-свойство для вертикального центрирования */
+  justify-content: center; /* Центрируем содержимое по вертикали */
+  align-items: center; /* Центрируем содержимое по горизонтали */
+  font-size: 20px; /* Увеличиваем размер шрифта символа */
+  line-height: 1; /* Изменяем высоту строки на 1 для точного центрирования */
+}
+
+.dropbtn::before, .dropbtn::after {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background-color: gray; /* Изменяем цвет точек на серый */
+  border-radius: 50%;
+}
+
+.dropbtn::before {
+  margin-right: 4px;
+}
+
+.dropbtn::after {
+  margin-left: 4px;
+}
+.btn:active {
+    /* Здесь вы можете определить стиль для активной кнопки */
+    /* Например, изменить цвет фона или текста */
+
+    color: #000;
+}
+.user-count-label {
+  font-weight: bold;
+}
+
+.user-count-info {
+  color: #28a745;
+  font-weight: bold;
+}
+    </style>
+</head>
+
+
+<body class="d-flex align-items-center py-4 bg-body-tertiary">
+<div class="container py-10">
+    <header th:insert="~{blocks/headers :: header1}"></header>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark" aria-label="Third navbar example">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarsExample03">
+                <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="modal" data-target="#filterModal">Фильтры</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link active" href="#" data-bs-toggle="dropdown"
+                           aria-expanded="false">Сортировка</a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="/search/esc/price">
+                                    Абонентская плата
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-arrow-up-short" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                              d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5"/>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/search/desc/price">
+                                    Абонентская плата
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-arrow-down-short ml-1" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                              d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4"/>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/search/esc/minutes">
+                                    Минуты
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-arrow-up-short" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                              d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5"/>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/search/desc/minutes">
+                                    Минуты
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-arrow-down-short ml-1" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                              d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4"/>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/search/esc/sms">
+                                    СМС
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-arrow-up-short" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                              d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5"/>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/search/desc/sms">
+                                    СМС
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-arrow-down-short ml-1" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                              d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4"/>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/search/esc/internet">
+                                    Бесплатные ГБ
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-arrow-up-short" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                              d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5"/>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/search/desc/internet">
+                                    Бесплатные ГБ
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-arrow-down-short ml-1" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                              d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4"/>
+                                    </svg>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <form action="/search" role="search">
+                    <input class="form-control" type="search" name="query" placeholder="Поиск" aria-label="Search">
+                </form>
+            </div>
+        </div>
+    </nav>
+    <h1 style="text-align: center; margin-top: 1em; margin-bottom: 1em;">Наши тарифы</h1>
+    <main>
+        <div class="message-container" th:if="${message}">
+            <p th:text="${message}" class="message"></p>
+        </div>
+        <div class="row">
+            <div th:each="el:${tariff}" class="col-md-4">
+                <div class="card mb-4 rounded-3 shadow-sm" width="429">
+                    <div class="card-header py-3 text-center">
+                        <h4 th:text="${el.title}" class="my-0 fw-normal"></h4>
+                        <div th:if="${isAdmin}" class="dropdown dropleft"
+                             style="position: absolute; top: 0; right: 0;">
+                            <div class="dropdown">
+                                <button class="dropbtn card-header py-3 text-center">&#8942;</button>
+                                <div class="dropdown-content">
+                                    <a th:href="@{/tariffs/{id}/edit(id=${el.id})}" class="btn">Редактировать</a>
+                                    <form th:action="@{/tariffs/{id}/remove(id=${el.id})}" method="post">
+                                        <button type="submit" class="btn">Удалить тариф</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body text-center">
+                        <h1 class="card-title pricing-card-title"><span th:text="${el.price}"/> Руб<small
+                                class="text-body-secondary fw-light">/месяц</small></h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li> Бесплатные ГБ: <span th:text="${el.internet}"/></li>
+                            <li>Бесплатные минуты: <span th:text="${el.minutes}"/></li>
+                            <li> Бесплатные смс: <span th:text="${el.sms}"/></li>
+                            <li>
+                                <span class="user-count-label">Количество пользователей:</span>
+                                <span class="user-count-info"
+                                      th:each="userCount : ${userCounts}"
+                                      th:if="${userCount[0] == el.id}"
+                                      th:text="${userCount[1] != '' ? userCount[1] : '0'}"></span>
+                            </li>
+                        </ul>
+                        <a th:if="${userId == 0}" type="button" class="btn btn-dark mt-3" data-bs-toggle="modal"
+                           data-bs-target="#modalChoice">Подключить</a>
+                        <form th:if="${userId == 1}" th:unless="${isAdmin}"
+                              th:action="@{/connectTariff/{id}(id=${el.id})}" method="post">
+                            <button type="submit" class="btn btn-dark mt-3">Подключить</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <a th:if="${isAdmin}" class="btn btn-success rounded-pill px-3" href="/tariffs/add" style="
+    margin-top: 10px;">Добавить новый тариф</a><br>
+</div>
+
+
+<div th:insert="~{blocks/headers :: modalLoginSystem}"></div>
+
+<div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="/filters" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="filterModalLabel">Фильтры</h5>
+                    <a class="icon-button" data-dismiss="modal" aria-label="Close">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="black"
+                             class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="price">Абонентсткая стоимость</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" name="minPrice" min="0" id="price" max="1000000"
+                                   placeholder="От">
+                            <div class="input-group-append">
+                                <span class="input-group-text">-</span>
+                            </div>
+                            <input type="number" class="form-control" name="maxPrice" min="0" max="1000000"
+                                   placeholder="До">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Free GB">Бесплатные ГБ</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" name="minInternet" min="0" id="Free GB"
+                                   placeholder="От" max="1000000">
+                            <div class="input-group-append">
+                                <span class="input-group-text">-</span>
+                            </div>
+                            <input type="number" class="form-control" name="maxInternet" min="0" max="1000000"
+                                   placeholder="До">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="minutes">Бесплатные минуты</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" name="minMinutes" min="0" max="1000000"
+                                   id="minutes" placeholder="От">
+                            <div class="input-group-append">
+                                <span class="input-group-text">-</span>
+                            </div>
+                            <input type="number" class="form-control" name="maxMinutes" min="0" max="1000000"
+                                   placeholder="До">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sms">Бесплатные смс</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" name="minSMS" id="sms" min="0" max="1000000"
+                                   placeholder="От">
+                            <div class="input-group-append">
+                                <span class="input-group-text">-</span>
+                            </div>
+                            <input type="number" class="form-control" name="maxSMS" min="0" max="1000000"
+                                   placeholder="До">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-dark">Применить фильтры</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>
