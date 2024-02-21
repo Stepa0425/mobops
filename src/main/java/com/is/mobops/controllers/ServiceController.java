@@ -25,7 +25,7 @@ import static com.is.mobops.controllers.MainController.isAdmin;
 public class ServiceController {
     @Autowired
     private ServiceRepository serviceRepository;
-    List<Service> processedServices = new ArrayList<Service>();
+    List<Service> processedServices = new ArrayList<>();
     @Autowired
     private UserRepository userRepository;
     @GetMapping("/services")
@@ -38,7 +38,7 @@ public class ServiceController {
         }
         processedServices = serviceRepository.getAllServices();
         model.addAttribute("service", processedServices);
-        return "services-main";
+        return "services/services-main";
     }
 
     @GetMapping("/searchServices")
@@ -54,7 +54,7 @@ public class ServiceController {
             model.addAttribute("message", "Ничего по вашему запросу не найдено.");
         else
             model.addAttribute("service", processedServices);
-        return "services-main";
+        return "services/services-main";
     }
 
     @GetMapping("/searchServices/{sort}/{parameter}")
@@ -109,7 +109,7 @@ public class ServiceController {
             model.addAttribute("service", services);
             processedServices = services;
         }
-        return "services-main";
+        return "services/services-main";
     }
     @PostMapping("/filtersServices")
     public String filtration(@RequestParam("minPrice") String minPrice, @RequestParam("maxPrice") String maxPrice, Model model) {
@@ -136,7 +136,7 @@ public class ServiceController {
             model.addAttribute("message", "Ничего по вашему запросу не найдено.");
         else
             model.addAttribute("service", processedServices);
-        return "services-main";
+        return "services/services-main";
     }
 
     @GetMapping("/services/add")
@@ -158,7 +158,7 @@ public class ServiceController {
         if (!serviceRepository.existsById(id)) return "redirect:/services";
         Service services = serviceRepository.getServiceById(id);
         model.addAttribute("service", services);
-        return "services-edit";
+        return "services/services-edit";
     }
 
     @Transactional
