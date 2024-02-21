@@ -59,7 +59,7 @@ public class TariffController {
                 .collect(Collectors.toList());
         model.addAttribute("userCounts", processedResult);
         System.out.println(processedResult);
-        return "tariffs-main";
+        return "tariff/tariffs-main";
     }
 
     @GetMapping("/tariffs/add")
@@ -84,7 +84,7 @@ public class TariffController {
         if (!tariffRepository.existsById(id)) return "redirect:/tariffs";
         Tariff tariffs = tariffRepository.getTariffById(id);
         model.addAttribute("tariff", tariffs);
-        return "tariffs-edit";
+        return "tariff/tariffs-edit";
     }
 
     @Transactional
@@ -129,7 +129,7 @@ public class TariffController {
             model.addAttribute("message", "Ничего по вашему запросу не найдено.");
         else
             model.addAttribute("tariff", processedTariff);
-        return "tariffs-main";
+        return "tariff/tariffs-main";
     }
 
     @GetMapping("/search/{sort}/{parameter}")
@@ -220,7 +220,7 @@ public class TariffController {
             model.addAttribute("tariff", tariffs);
             processedTariff = tariffs;
         }
-        return "tariffs-main";
+        return "tariff/tariffs-main";
     }
 
     @PostMapping("/filters")
@@ -249,7 +249,7 @@ public class TariffController {
             model.addAttribute("message", "Ничего по вашему запросу не найдено.");
         else
             model.addAttribute("tariff", processedTariff);
-        return "tariffs-main";
+        return "tariff/tariffs-main";
     }
 
 }

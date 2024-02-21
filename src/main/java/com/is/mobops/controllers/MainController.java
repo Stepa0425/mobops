@@ -60,7 +60,7 @@ public class MainController {
 
     @GetMapping("/")
     public String home(HttpServletResponse response, Model model) {
-//     //   Хешерование паролей
+     //   Хешерование паролей
 //        List<User> users = userRepository.getAllUsers();
 //        for (User user : users){
 //            String password = user.getPassword();
@@ -89,7 +89,7 @@ public class MainController {
 
     @GetMapping("/bib1")
     public void showImage1(HttpServletResponse response) throws IOException {
-        String imagePath = "src/main/resources/ymnibibizian.jpg"; // Путь к вашему изображению
+        String imagePath = "src/main/resources/images/ymnibibizian.jpg"; // Путь к вашему изображению
 
         File imageFile = new File(imagePath);
         FileInputStream inputStream = new FileInputStream(imageFile);
@@ -105,7 +105,7 @@ public class MainController {
     }
     @GetMapping("/bib2")
     public void showImage2(HttpServletResponse response) throws IOException {
-        String imagePath = "src/main/resources/comfort.jpg"; // Путь к вашему изображению
+        String imagePath = "src/main/resources/images/comfort.jpg"; // Путь к вашему изображению
 
         File imageFile = new File(imagePath);
         FileInputStream inputStream = new FileInputStream(imageFile);
@@ -121,7 +121,7 @@ public class MainController {
     }
     @GetMapping("/bib3")
     public void showImage3(HttpServletResponse response) throws IOException {
-        String imagePath = "src/main/resources/bib.jpg"; // Путь к вашему изображению
+        String imagePath = "src/main/resources/images/bib.jpg"; // Путь к вашему изображению
 
         File imageFile = new File(imagePath);
         FileInputStream inputStream = new FileInputStream(imageFile);
@@ -217,7 +217,7 @@ public class MainController {
             model.addAttribute("userId", 1);
             model.addAttribute("isAdmin", isAdmin);
         }
-        return "verification";
+        return "passwordRecovery/verification";
     }
 
     @PostMapping("/verification")
@@ -233,14 +233,14 @@ public class MainController {
         UserID = userRepository.getUsersIdByEmail(email);
         if (UserID == null) {
             model.addAttribute("error_message", "Такая почта не зарегистрирована!");
-            return "verification";
+            return "passwordRecovery/verification";
         } else {
             String subject = "Восстановление пароля";
             String message = "Ваш код для восстановления: " + CODE;
             mailService.sendEmail(email, subject, message);
             eMail = email;
             UserID = null;
-            return "check-email";
+            return "passwordRecovery/check-email";
         }
     }
 
@@ -252,7 +252,7 @@ public class MainController {
             model.addAttribute("userId", 1);
             model.addAttribute("isAdmin", isAdmin);
         }
-        return "check-email";
+        return "passwordRecovery/check-email";
     }
 
     @PostMapping("/check-email")
@@ -278,7 +278,7 @@ public class MainController {
             model.addAttribute("userId", 1);
             model.addAttribute("isAdmin", isAdmin);
         }
-        return "edit-password";
+        return "passwordRecovery/edit-password";
     }
 
     @PostMapping("/edit-password")
@@ -296,7 +296,7 @@ public class MainController {
             return "login";
         } else
             model.addAttribute("error_message", "Пароли не совпадают!");
-        return "edit-password";
+        return "passwordRecovery/edit-password";
     }
 
     @GetMapping("/account")

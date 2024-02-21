@@ -13,8 +13,6 @@
       <a th:if="${userId == 1}" type="button" class="btn btn-dark rounded-pill px-3 mx-1" href="/account">Мой профиль</a>
       <a class="btn btn-dark rounded-pill px-3 mx-1" href="/tariffs">Тарифы</a>
       <a class="btn btn-dark rounded-pill px-3 mx-1" href="/services">Услуги</a>
-      <!--<a th:if="${isAdmin}" type="button" class="btn btn-dark rounded-pill px-3 mx-1" href="/orders">Заявки</a>
-      <a th:if="${isAdmin}" type="button" class="btn btn-dark rounded-pill px-3 mx-1" href="/history">История заявок</a>-->
       <a th:if="${isAdmin}" type="button" class="btn btn-dark rounded-pill px-3 mx-1" href="/users">Пользователи</a>
       <a th:if="${isAdmin}" type="button" class="btn btn-dark rounded-pill px-3 mx-1" href="/analysis">Аналитика</a>
       <a th:if="${userId == 0}" class="btn btn-dark rounded-pill px-3 mx-1" href="/login">Войти</a>
