@@ -89,7 +89,7 @@ public class MainController {
 
     @GetMapping("/bib1")
     public void showImage1(HttpServletResponse response) throws IOException {
-        String imagePath = "src/main/resources/ymnibibizian.jpg"; // Путь к вашему изображению
+        String imagePath = "src/main/resources/images/ymnibibizian.jpg"; // Путь к вашему изображению
 
         File imageFile = new File(imagePath);
         FileInputStream inputStream = new FileInputStream(imageFile);
@@ -105,7 +105,7 @@ public class MainController {
     }
     @GetMapping("/bib2")
     public void showImage2(HttpServletResponse response) throws IOException {
-        String imagePath = "src/main/resources/comfort.jpg"; // Путь к вашему изображению
+        String imagePath = "src/main/resources/images/comfort.jpg"; // Путь к вашему изображению
 
         File imageFile = new File(imagePath);
         FileInputStream inputStream = new FileInputStream(imageFile);
@@ -121,7 +121,7 @@ public class MainController {
     }
     @GetMapping("/bib3")
     public void showImage3(HttpServletResponse response) throws IOException {
-        String imagePath = "src/main/resources/bib.jpg"; // Путь к вашему изображению
+        String imagePath = "src/main/resources/images/bib.jpg"; // Путь к вашему изображению
 
         File imageFile = new File(imagePath);
         FileInputStream inputStream = new FileInputStream(imageFile);
